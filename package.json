@@ -1,0 +1,30 @@
+{
+  "name": "eslint-plugin-piggyback",
+  "version": "0.0.1",
+  "description": "Disallow extending the global scope by extending objects that reference it (e.g. 'window')",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "author": {
+    "name": "cowchimp",
+    "url": "http://blog.cowchimp.com"
+  },
+  "repository": "cowchimp/eslint-plugin-piggyback",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha tests/lib/rules"
+  },
+  "dependencies": {
+    "requireindex": "~1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "~1.2.0"
+    "mocha": "~2.4.5"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "license": "ISC"
+}
