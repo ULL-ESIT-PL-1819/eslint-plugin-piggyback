@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-piggyback",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Disallow extending the global scope by extending objects that reference it (e.g. 'window')",
   "keywords": [
     "eslint",
@@ -20,8 +20,10 @@
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
-    "eslint": "~1.2.0",
     "mocha": "~2.4.5"
+  },
+  "peerDependencies": {
+    "eslint": ">=2.0.0"
   },
   "engines": {
     "node": ">=0.10.0"
