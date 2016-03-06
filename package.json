@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-piggyback",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Disallow extending the global scope by extending objects that reference it (e.g. 'window')",
   "keywords": [
     "eslint",
