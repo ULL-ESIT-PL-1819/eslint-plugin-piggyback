@@ -20,6 +20,7 @@
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
+    "eslint": "~2.0.0",
     "mocha": "~2.4.5"
   },
   "peerDependencies": {
