@@ -46,7 +46,7 @@ import $ from 'jquery';
 
 $.ajax( ... ); //This is fine.
 $.when( ... ); //This is fine.
-$.cookie( ... ); //This will now trigger an ESLint warning
+$.cookie( ... ); //This will now trigger an ESLint error
 ```
 
 **Note:** This rule will only catch jQuery plugins that extend the jQuery object. It cannot catch jQuery plugins that extend jQuery elements (via `jQuery.fn`).
