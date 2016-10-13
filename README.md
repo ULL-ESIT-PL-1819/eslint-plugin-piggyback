@@ -36,7 +36,7 @@ window.Foo.baz(); //This will now throw an error
 ### `no-jquery-extend`
 
 This rule helps catch cases where you're using [jQuery plugins](http://plugins.jquery.com/) (e.g. [`$.cookie`](https://github.com/carhartl/jquery-cookie), [`$.query`](https://github.com/blairmitchelmore/jquery.plugins)).
-jQuery plugins are somewhat of an anti-pattern when it comes to properly declaring your module dependencies because they don't export anything, but rather extend the jQuery object itself.
+jQuery plugins are somewhat of an anti-pattern when it comes to properly declaring your module dependencies because they don't export anything, but rather extend the jQuery object itself.  
 Generally speaking, if you're refactoring old code that uses a jQuery plugin, there's probably a modern library available that provides the same functionality without relying on or extending jQuery.
 
 With `no-jquery-extend` in-use:
