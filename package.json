@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-piggyback",
-  "version": "0.0.4",
-  "description": "Disallow extending the global scope by extending objects that reference it (e.g. 'window')",
+  "version": "1.0.0",
+  "description": "A set of ESLint rules that help catch undeclared references",
   "keywords": [
     "eslint",
     "eslintplugin",
@@ -17,6 +17,8 @@
     "test": "mocha tests/lib/rules"
   },
   "dependencies": {
+    "jquery": "^3.1.1",
+    "jsdom": "^7.2.2",
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
@@ -27,7 +29,7 @@
     "eslint": ">=2.0.0"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4.0.0"
   },
   "license": "ISC"
 }

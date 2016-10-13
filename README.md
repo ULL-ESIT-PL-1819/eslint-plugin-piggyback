@@ -1,52 +1,55 @@
 # eslint-plugin-piggyback
 
-Contains the `no-restricted-global-extend` rule:  
-Disallow extending the global scope by extending objects that reference it (e.g. 'window')  
+A set of [ESLint](https://github.com/eslint/eslint) rules that help catch undeclared references that ESLint's built-in [`no-undef`](http://eslint.org/docs/rules/no-undef) rule doesn't find because they are extending other objects  
 (AKA "piggybacking" :stuck_out_tongue:)
 
 ## Motivation
 
-Not too long ago, the common way separating your code into "modules" was to define an object on the global scope in one script and access it from another script.  
-Nowadays, with the advent of module systems (AMD,CJS,ES6), you might want to avoid "polluting" the global scope.  
-In order to enforce this with [ESLint](http://eslint.org), you'll want to use the built-in rule [`no-undef`](http://eslint.org/docs/rules/no-undef) which will catch any variable not defined within the script.
+This ESLint plugin is useful for migrating a large legacy project that relies on global scope "pollution" into one where all module dependencies are properly declared (via AMD, CommonJS, ES6 Modules, etc.) and automatic module-bundling is possible.  
+For the most part ESLint's [`no-undef`](http://eslint.org/docs/rules/no-undef) will get you most of the way there, but each of these custom rules handle a certain edge-case that it does not.
 
-```javascript
-(function() {
-  Foo.bar(); //`Foo` is not defined in this script. `no-undef` will catch this
-})():
-```
+### `no-restricted-global-extend`
 
-It's common to have some variables that are defined elsewhere but should not throw any errors, such as `window` if you're writing front-end code.
+Consider the result of linting this code with ESLint when just the `no-undef` rule is in-use:
 
 ```javascript
 /*eslint-env browser*/
-(function() {
-  window.location.reload(); //`window` is not defined in this script but `no-undef` will not throw an error because `window` has been white-listed as a valid global
-})();
-
+Foo.bar(); //`Foo` is not defined in this script. `no-undef` will catch this
+window.location.reload(); //`window` is not defined in this script but `no-undef` will not throw an error because `window` has been white-listed as a valid global
+window.Foo.baz(); //This will not throw an error despite `Foo` not being defined anywhere and is not a valid property of `window`
 ```
 
-In the case above `browser` is set as the environment because you want to access `window.location` which is valid because it exists in any browser (you could also just set `/*global window*/`).  
-But once you do this anyone can assign and access other properties on `window` without triggering a lint violation.
+In the case above `browser` is set as the environment because you want to access `window.location` which is valid because it exists in any browser.
+But once you do this anyone can assign and access other properties on `window` without triggering a lint violation, which is why no error is thrown for `window.Foo.baz()`.
+
+The `no-restricted-global-extend` rule can identify cases where you're using an object which references the global scope (e.g. `window` in front-end code), and it will alert you if the property you're accessing is not available in the global scope in that environment.
+
+With both `no-under` and `no-restricted-global-extend` in-use:
 
 ```javascript
 /*eslint-env browser*/
-(function() {
-  window.Foo.bar(); //This will not throw an error despite `Foo` not being defined anywhere and is not a valid property of `window`
-})();
+Foo.bar(); //`Foo` is not defined in this script. `no-undef` will catch this
+window.location.reload(); //`window` is not defined in this script but `no-undef` will not throw an error because `window` has been white-listed as a valid global
+window.Foo.baz(); //This will now throw an error
 ```
 
-This is where `no-restricted-global-extend` comes in. It can identify cases where you're using an object which references the global scope, and it will alert you if the property you're accessing is not available in the global scope.  
-This rule can be used in unison with `no-undef`. See the 'Usage' section below on how to configure it.
+### `no-jquery-extend`
+
+This rule helps catch cases where you're using [jQuery plugins](http://plugins.jquery.com/) (e.g. [`$.cookie`](https://github.com/carhartl/jquery-cookie), [`$.query`](https://github.com/blairmitchelmore/jquery.plugins)).
+jQuery plugins are somewhat of an anti-pattern when it comes to properly declaring your module dependencies because they don't export anything, but rather extend the jQuery object itself.
+Generally speaking, if you're refactoring old code that uses a jQuery plugin, there's probably a modern library available that provides the same functionality without relying on or extending jQuery.
+
+With `no-jquery-extend` in-use:
 
 ```javascript
-/*eslint-env browser*/
-(function() {
-  window.location.reload(); //This is fine
-  window.console.log();     //This is fine
-  window.Foo.bar();         //This will throw an error
-})();
+import $ from 'jquery';
+
+$.ajax( ... ); //This is fine.
+$.when( ... ); //This is fine.
+$.cookie( ... ); //This will now trigger an ESLint warning
 ```
+
+**Note:** This rule will only catch jQuery plugins that extend the jQuery object. It cannot catch jQuery plugins that extend jQuery elements (via `jQuery.fn`).
 
 ## Installation
 
@@ -76,8 +79,9 @@ Add `piggyback` to the plugins section of your `.eslintrc` configuration file. Y
 }
 ```
 
+#### Add the `no-restricted-global-extend` rule
 
-Then configure the 'no-restricted-global-extend' under the rules section.  
+Configure the 'no-restricted-global-extend' under the rules section in your `.eslintrc` configuration file.
 You must specify which identifiers reference the global scope in your environment (e.g. 'window').
 
 ```json
@@ -87,6 +91,24 @@ You must specify which identifiers reference the global scope in your environmen
     }
 }
 ```
+
+#### Add the `no-jquery-extend` rule
+
+
+Configure the 'no-jquery-extend' under the rules section in your `.eslintrc` configuration file.
+You can specify which identifiers reference the jQuery library in your code (default: `$` & `jQuery`).
+
+```json
+{
+    "rules": {
+        "piggyback/no-jquery-extend": [2, "$", "jQuery", "myJQuery"]
+    }
+}
+```
+
+## Changelog
+
+**1.0.0** - Add the `no-jquery-extend` rule. This is a breaking change because as of this version Node.js >= 4 or newer is required.
 
 ## Running tests
 Run mocha tests with `npm test`
