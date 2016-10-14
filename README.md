@@ -24,7 +24,7 @@ But once you do this anyone can assign and access other properties on `window` w
 
 The `no-restricted-global-extend` rule can identify cases where you're using an object which references the global scope (e.g. `window` in front-end code), and it will alert you if the property you're accessing is not available in the global scope in that environment.
 
-With both `no-under` and `no-restricted-global-extend` in-use:
+With both `no-undef` and `no-restricted-global-extend` in-use:
 
 ```javascript
 /*eslint-env browser*/
@@ -35,7 +35,7 @@ window.Foo.baz(); //This will now throw an error
 
 ### `no-jquery-extend`
 
-This rule helps catch cases where you're using [jQuery plugins](http://plugins.jquery.com/) (e.g. [`$.cookie`](https://github.com/carhartl/jquery-cookie), [`$.query`](https://github.com/blairmitchelmore/jquery.plugins)).
+This rule helps catch cases where you're using [jQuery plugins](http://plugins.jquery.com/) (e.g. [`$.cookie`](https://github.com/carhartl/jquery-cookie), [`$.query`](https://github.com/blairmitchelmore/jquery.plugins)).  
 jQuery plugins are somewhat of an anti-pattern when it comes to properly declaring your module dependencies because they don't export anything, but rather extend the jQuery object itself.  
 Generally speaking, if you're refactoring old code that uses a jQuery plugin, there's probably a modern library available that provides the same functionality without relying on or extending jQuery.
 
