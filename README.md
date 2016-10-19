@@ -1,3 +1,6 @@
+![node](https://img.shields.io/node/v/eslint-plugin-piggyback.svg)
+![npm](https://img.shields.io/npm/v/eslint-plugin-piggyback.svg)
+
 # eslint-plugin-piggyback
 
 A set of [ESLint](https://github.com/eslint/eslint) rules that help catch undeclared references that ESLint's built-in [`no-undef`](http://eslint.org/docs/rules/no-undef) rule doesn't find because they are extending other objects  
@@ -108,7 +111,8 @@ You can specify which identifiers reference the jQuery library in your code (def
 
 ## Changelog
 
-**1.0.0** - Add the `no-jquery-extend` rule. This is a breaking change because as of this version Node.js >= 4 or newer is required.
+**2.0.0** - Switch to ESLint's [new rule format](http://eslint.org/blog/2016/07/eslint-new-rule-format). This is a breaking change because as of this ESLint version >= 2.13.0 is required.
+**1.0.0** - Add the `no-jquery-extend` rule. This is a breaking change because as of this Node.js version >= 4 is required.
 
 ## Running tests
 Run mocha tests with `npm test`

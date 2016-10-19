@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-piggyback",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A set of ESLint rules that help catch undeclared references",
   "keywords": [
     "eslint",
@@ -22,11 +22,11 @@
     "requireindex": "~1.1.0"
   },
   "devDependencies": {
-    "eslint": "~2.0.0",
+    "eslint": "~2.13.0",
     "mocha": "~2.4.5"
   },
   "peerDependencies": {
-    "eslint": ">=2.0.0"
+    "eslint": ">=2.13.0"
   },
   "engines": {
     "node": ">=4.0.0"
